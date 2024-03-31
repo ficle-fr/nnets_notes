@@ -28,7 +28,7 @@ Grey image(10 * 10):
   [80 81 82 83 84 85 86 87 88 89]
   [90 91 92 93 94 95 96 97 98 99]]
 ```
-Important note that here matrices of the weights aren't flipped as the theory requires:
+***Important note that here matrices of the weights aren't flipped as the [theory](http://www.songho.ca/dsp/convolution/convolution2d_example.html) requires.***
 ```
 0 * 0 + 10 * 1 + 20 * 10 + 30 * 11 = 540
 1 * 0 + 11 * 1 + 21 * 10 + 31 * 11 = 562
