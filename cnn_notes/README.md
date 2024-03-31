@@ -1,5 +1,7 @@
-Here is a reminder of how the convolutional layer works in TensorFlow.
-1. The image has just one channel. We have a layer that has 10 2*2 matrices.
+# Here is a reminder of how the convolutional layer works in TensorFlow.
+## 1. The image has just one channel. 
+We have a layer that has 10 2*2 matrices:
+```
 weights(transposed):
 tf.Tensor(
 [[[[ 0. 10.]
@@ -12,7 +14,9 @@ tf.Tensor(
 
   [[ 9. 19.]
    [29. 39.]]]], shape=(1, 10, 2, 2), dtype=float32)
-image:
+```
+Grey image(10 * 10):
+```
  [[ 0  1  2  3  4  5  6  7  8  9]
   [10 11 12 13 14 15 16 17 18 19]
   [20 21 22 23 24 25 26 27 28 29]
@@ -23,13 +27,16 @@ image:
   [70 71 72 73 74 75 76 77 78 79]
   [80 81 82 83 84 85 86 87 88 89]
   [90 91 92 93 94 95 96 97 98 99]]
-
+```
 Important note that here matrices of the weights aren't flipped as the theory requires:
+```
 0 * 0 + 10 * 1 + 20 * 10 + 30 * 11 = 540
 1 * 0 + 11 * 1 + 21 * 10 + 31 * 11 = 562
 ...
+```
 
 output(transposed):
+```
 [[[ 540.  600.  660.  720.  780.  840.  900.  960. 1020.]
   [1140. 1200. 1260. 1320. 1380. 1440. 1500. 1560. 1620.]
   [1740. 1800. 1860. 1920. 1980. 2040. 2100. 2160. 2220.]
@@ -62,8 +69,10 @@ output(transposed):
   [7458. 7554. 7650. 7746. 7842. 7938. 8034. 8130. 8226.]
   [8418. 8514. 8610. 8706. 8802. 8898. 8994. 9090. 9186.]]],
   shape=(10, 9, 9), dtype=float32)
-  
-2. The image has three channels. We have a layer that has 10 groups each has 3 2*2 matricies.
+```
+## 2. The image has three channels. 
+We have a layer that has 10 groups each has 3 2*2 matrices.
+```
 weights(transposed):
  tf.Tensor(
 [[[[  0.  30.]
@@ -85,41 +94,62 @@ weights(transposed):
    [ 79. 109.]]
   [[ 29.  59.]
    [ 89. 119.]]]], shape=(10, 3, 2, 2), dtype=float32)
-image:
+```
+RGB image:
+```
 [[[  0   1   2] [  3   4   5] [  6   7   8] [  9  10  11] [ 12  13  14] [ 15  16  17] [ 18  19  20] [ 21  22  23] [ 24  25  26] [ 27  28  29]]
  [[ 30  31  32] [ 33  34  35] [ 36  37  38] [ 39  40  41] [ 42  43  44] [ 45  46  47] [ 48  49  50] [ 51  52  53] [ 54  55  56] [ 57  58  59]]
  ...
  [[270 271 272] [273 274 275] [276 277 278] [279 280 281] [282 283 284] [285 286 287] [288 289 290] [291 292 293] [294 295 296] [297 298 299]]]
-
-First 2 * 2 pixels - > [[[  0   1   2] [  3   4   5]] 
-                        [[ 30  31  32] [ 33  34  35]] 
+```
+The first 2 * 2 pixels are:
+```
+[[[  0   1   2] [  3   4   5]] 
+ [[ 30  31  32] [ 33  34  35]]
+```
 So that:
-channel 1 [[ 0  3]]
-           [30 33]
-channel 2 [[ 1  4]]
-           [31 34]
-channel 3 [[ 2  5]]
-           [32 35]
-
+- channel 1
+```
+[[ 0  3]
+ [30 33]]
+```
+- channel 2
+```
+[[ 1  4]
+ [31 34]]
+```
+-channel 3
+```
+[[ 2  5]
+ [32 35]]
+```
 A first tuple of 2 * 2 matrices from the layer:
+```
 [[[  0.  30.]
   [ 60.  90.]]
  [[ 10.  40.]
   [ 70. 100.]]
  [[ 20.  50.]
   [ 80. 110.]]]
-
+```
 So for the first channel, we should use the first matrix: 
+```
 0 * 0 + 30 * 3 + 60 * 30 + 90 * 33 = 4860
-
+```
 For the second channel:
+```
 10 * 1 + 40 * 4 + 70 * 31 + 100 * 34 = 5700
+```
 For the third channel:
+```
 20 * 2 + 50 * 5 + 80 * 32 + 110 * 35 = 6700
+```
 Next, we summarize the products from all channels:
+```
 4860 + 5700 + 6700 = 17300
-
+```
 output(transposed):
+```
 tf.Tensor(
 [[[ 17300.  19280.  21260.  23240.  25220.  27200.  29180.  31160. 33140.]
   [ 37100.  39080.  41060.  43040.  45020.  47000.  48980.  50960. 52940.]
@@ -150,3 +180,4 @@ tf.Tensor(
   [180470. 182774. 185078. 187382. 189686. 191990. 194294. 196598. 198902.]
   [203510. 205814. 208118. 210422. 212726. 215030. 217334. 219638. 221942.]]],
   shape=(10, 9, 9), dtype=float32)
+```
